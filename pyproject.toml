@@ -1,0 +1,26 @@
+[project]
+name = "maku-to-do"
+version = "0.1.0"
+description = "a to-do app in FastAPI"
+authors = [
+    {name = "sachmannsingh-maku",email = "sachmann.singh@makunai.ai"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi (>=0.124.4,<0.125.0)",
+    "uvicorn (>=0.38.0,<0.39.0)",
+    "sqlalchemy (>=2.0.45,<3.0.0)",
+    "celery (>=5.6.0,<6.0.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.scripts]
+dev = "uvicorn app:app --reload"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
