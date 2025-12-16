@@ -6,11 +6,12 @@ import asyncio
 # add your metadata import
 from maku_todo.app.db import Base  # adjust import
 
+from maku_todo.app import models
+
 config = context.config
 fileConfig(config.config_file_name)
-
 target_metadata = Base.metadata
-
+print(target_metadata)
 
 def do_run_migrations(connection):
     context.configure(
