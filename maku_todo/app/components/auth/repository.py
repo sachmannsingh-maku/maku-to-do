@@ -3,7 +3,6 @@ from sqlalchemy import select
 from .models import User
 
 async def get_user_by_email(db: AsyncSession, email: str) -> User | None:
-    print("came here")
     result = await db.execute(
         select(User).where(User.email == email)
     )

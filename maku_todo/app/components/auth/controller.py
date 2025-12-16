@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from ...db import get_db
 from .schemas import UserCreate, UserResponse, Token
 from .service import register_user, login_user
+from .dependency import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -14,3 +15,8 @@ async def register(user: UserCreate,db: AsyncSession = Depends(get_db)):
 @router.post("/login", response_model=Token)
 async def login(user: UserCreate,db: AsyncSession = Depends(get_db)):
     return await login_user(db, user.email, user.password)
+
+@router.get("/me")
+async def me(current_user = Depends(get_current_user)):
+    return current_user
+
