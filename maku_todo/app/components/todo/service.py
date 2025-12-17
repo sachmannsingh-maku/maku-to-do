@@ -23,6 +23,8 @@ async def update_todo_service(db:AsyncSession, todo_id:int, todo_data, current_u
     verify_ownership(todo, current_user)
 
     for field, value in todo_data.model_dump(exclude_unset=True).items():
+        if field == 'completed':
+            value = eval(value.capitalize())
         setattr(todo, field, value)
     
     await db.commit()

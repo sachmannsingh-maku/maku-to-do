@@ -1,13 +1,20 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from .models import User
+from .exceptions import InvalidEmailFormat
 
 async def get_user_by_email(db: AsyncSession, email: str) -> User | None:
-    result = await db.execute(
-        select(User).where(User.email == email)
-    )
-    u = result.scalar_one_or_none()
-    return u
+    try:
+        if '@' not in email:
+            raise InvalidEmailFormat(f"Specified Email '{email}' is not of the correct format")
+        result = await db.execute(
+            select(User).where(User.email == email)
+        )
+        u = result.scalar_one_or_none()
+        return u
+    except InvalidEmailFormat:
+        return f"Specified Email '{email}' is not of the correct format"
+        ...
 
 async def get_user_by_id(db: AsyncSession, user_id: int) -> User | None:
     result = await db.execute(

@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import status
 
 from ...db import get_db
 from .schemas import UserCreate, UserResponse, Token
@@ -20,3 +21,6 @@ async def login(user: UserCreate,db: AsyncSession = Depends(get_db)):
 async def me(current_user = Depends(get_current_user)):
     return current_user
 
+@router.post("/logout", status_code=status.HTTP_200_OK)
+async def logout(current_user = Depends(get_current_user),):
+    return {"message": "Logout successful"}

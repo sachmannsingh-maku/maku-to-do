@@ -1,0 +1,2 @@
+class InvalidEmailFormat(Exception):
+    pass
