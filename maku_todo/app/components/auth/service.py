@@ -2,6 +2,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
 from .exceptions import InvalidEmailFormat
+from maku_todo.tasks.email import send_welcome_email
 logger = logging.getLogger("auth")
 
 from .repository import (
@@ -27,8 +28,9 @@ async def register_user(db: AsyncSession, email: str, password: str):
 
         # 3. Create user in DB
         user = await create_user(db, email, hashed_password)
-
+        send_welcome_email.delay(user.email)
         return user
+    
     except InvalidEmailFormat:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
