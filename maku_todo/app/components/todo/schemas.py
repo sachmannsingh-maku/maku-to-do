@@ -13,6 +13,7 @@ class TodoUpdate(BaseModel):
     completed : Optional[str] = None
 
 class TodoResponse(BaseModel):
+    id:int
     completed : bool
     title:str
     description: str | None

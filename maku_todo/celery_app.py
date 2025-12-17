@@ -7,5 +7,4 @@ celery_app = Celery(
 )
 
 
-
 celery_app.autodiscover_tasks(["maku_todo.tasks"])
